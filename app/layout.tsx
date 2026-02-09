@@ -16,19 +16,33 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ishmael Cascabel | Full-Stack Developer",
+  metadataBase: new URL('https://ishmael.dev'),
+  title: {
+    default: "Ishmael Cascabel | Full-Stack Developer",
+    template: "%s | Ishmael Cascabel"
+  },
   description: "Full-stack developer crafting modern web experiences with clean code and innovative solutions. Explore my portfolio of projects built with React, Next.js, and more.",
-  keywords: ["developer", "portfolio", "react", "nextjs", "typescript", "full-stack"],
-  authors: [{ name: "Ishmael Cascabel" }],
+  keywords: ["developer", "portfolio", "react", "nextjs", "typescript", "full-stack", "software engineer", "web development"],
+  authors: [{ name: "Ishmael Cascabel", url: "https://ishmael.dev" }],
+  creator: "Ishmael Cascabel",
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ishmael.dev",
     title: "Ishmael Cascabel | Full-Stack Developer",
     description: "Full-stack developer crafting modern web experiences with clean code and innovative solutions.",
-    type: "website",
+    siteName: "Ishmael Cascabel Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Ishmael Cascabel | Full-Stack Developer",
     description: "Full-stack developer crafting modern web experiences with clean code and innovative solutions.",
+    creator: "@ishmaelcascabel", 
+  },
+  icons: {
+    icon: '/icon',
+    shortcut: '/icon',
+    apple: '/icon',
   },
 };
 
