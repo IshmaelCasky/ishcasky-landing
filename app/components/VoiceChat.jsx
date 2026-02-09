@@ -205,7 +205,7 @@ function TranscriptBubble({ text, isVisible }) {
   if (!isVisible || !text) return null;
   
   return (
-    <div className="fixed bottom-22 left-1/2 -translate-x-1/2 right-auto md:left-auto md:translate-x-0 md:right-8 z-50 max-w-md w-full px-4 animate-fade-in pointer-events-none flex justify-center md:justify-end">
+    <div className="fixed bottom-22 left-1/2 -translate-x-1/2 right-auto md:left-auto md:translate-x-0 md:right-8 z-50 w-[calc(100%-2rem)] max-w-[90vw] md:max-w-md md:w-full px-4 animate-fade-in pointer-events-none flex justify-center md:justify-end">
       <div className="bg-black/90 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl">
         <div className="flex items-start gap-3">
           <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -233,7 +233,7 @@ function SuggestionPrompts({ isVisible, onSelect }) {
   if (!isVisible) return null;
   
   return (
-    <div className="fixed bottom-22 left-1/2 -translate-x-1/2 right-auto md:left-auto md:translate-x-0 md:right-8 z-40 animate-fade-in">
+    <div className="fixed bottom-22 left-1/2 -translate-x-1/2 right-auto md:left-auto md:translate-x-0 md:right-8 z-40 w-[calc(100%-2rem)] md:w-auto animate-fade-in">
       <div className="flex items-center gap-2 text-sm text-zinc-500 justify-center md:justify-end">
         <span>Try:</span>
         <button 
@@ -273,7 +273,7 @@ function ActiveRoomContent({ onDisconnect, onListeningChange, onSpeakingChange, 
 
     const handleTranscription = (segments, participant) => {
       const identity = participant?.identity?.toLowerCase() || '';
-      const isAgent = identity.includes('agent') || identity.includes('harper');
+      const isAgent = identity.includes('agent') || identity.includes('harper') || identity.includes('maeng');
       
       if (!isAgent) return;
 
@@ -343,7 +343,7 @@ function ActiveRoomContent({ onDisconnect, onListeningChange, onSpeakingChange, 
   useEffect(() => {
     const hasAgent = participants.some(p => {
       const identity = p.identity?.toLowerCase() || '';
-      return identity.includes('agent') || identity.includes('harper');
+      return identity.includes('agent') || identity.includes('harper') || identity.includes('maeng');
       
     });
     

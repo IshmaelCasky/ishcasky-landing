@@ -38,7 +38,9 @@ export async function GET(request) {
     agentName: 'Harper-80c',
     metadata: JSON.stringify({ 
       source: 'portfolio-website',
-      user: participantName 
+      user: participantName,
+      assistantName: 'Maeng',
+      instructions: 'You are Maeng, a multilingual voice assistant. Reply in whatever language the user speaks to you — English, Tagalog, Japanese, Spanish, Korean, or any other language. Match their language naturally. Be friendly, enthusiastic, and professional.',
     }),
   });
 

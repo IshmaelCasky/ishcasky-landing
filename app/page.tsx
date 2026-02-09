@@ -312,7 +312,7 @@ export default function Home() {
         
         {/* Header / Intro */}
         <section className="mb-20 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-          <div className="md:col-span-8">
+          <div className="order-2 md:order-1 md:col-span-8">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-black dark:text-white">
               Ishmael Cascabel
             </h1>
@@ -333,13 +333,13 @@ export default function Home() {
             </div>
             
             {/* AI Assistant Hint */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 rounded-full border border-zinc-100 dark:border-zinc-800">
+            <div className="inline-flex items-center gap-2 px-4 py-2 md:px-3 md:py-1.5 bg-zinc-50 dark:bg-zinc-900 rounded-full border border-zinc-100 dark:border-zinc-800 w-full md:w-auto justify-center md:justify-start">
               <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
               <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Try my AI assistant — Click the mic in the nav</span>
             </div>
           </div>
-          <div className="md:col-span-4 flex justify-start md:justify-end">
-             <div className="relative w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800 grayscale hover:grayscale-0 transition-all duration-500">
+          <div className="order-1 md:order-2 md:col-span-4 flex justify-start md:justify-end">
+             <div className="relative w-full h-48 md:w-36 md:h-36 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800 grayscale hover:grayscale-0 transition-all duration-500">
                <Image 
                  src="/images/profile.jpg" 
                  alt="Ishmael Cascabel" 
