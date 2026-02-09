@@ -1,26 +1,544 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================
+   Design System - Ishmael Cascabel Portfolio
+   ============================================ */
+
 :root {
+  /* Colors - Super Minimal White Mode (Strict) */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --muted: #eeeeee; /* Very light gray for subtle separation */
+  --muted-foreground: #666666;
+  --border: #e5e5e5;
+  --card: #ffffff;
+  --card-hover: #ffffff;
+  --accent: #000000;
+  --accent-hover: #333333;
+  
+  /* Typography */
+  --font-sans: 'Inter', var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  
+  /* Spacing */
+  --section-padding: 6rem;
+  --container-max: 1200px;
+  
+  /* Animations */
+  --transition-fast: 200ms ease;
+  --transition-base: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark {
+  /* Colors - Dark Mode */
+  --background: #09090b; /* Zinc 950 */
+  --foreground: #ffffff;
+  --muted: #27272a; /* Zinc 800 */
+  --muted-foreground: #a1a1aa; /* Zinc 400 */
+  --border: #27272a;
+  --card: #18181b; /* Zinc 900 */
+  --card-hover: #27272a;
+  --accent: #ffffff;
+  --accent-hover: #e4e4e7; /* Zinc 200 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================
+   Base Styles
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Grid background pattern removed for minimal list layout */
+.grid-pattern {
+  background: white;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+/* ============================================
+   Components
+   ============================================ */
+
+/* Pill/Tag styles */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 6px; /* Slightly squared corners like reference */
+  background: #000000;
+  color: #ffffff;
+  transition: transform var(--transition-fast);
+}
+
+.pill:hover {
+  transform: translateY(-2px);
+  opacity: 0.8;
+}
+
+.pill-outline {
+  background: transparent;
+  border: 1px solid #e5e5e5;
+  color: #666;
+  border-radius: 4px;
+}
+
+/* Card styles */
+.card {
+  background: var(--card);
+  /* border: 1px solid var(--border); removed border for cleaner look or keep it very subtle */
+  border: 1px solid rgba(0,0,0,0.05); /* Extremely subtle border */
+  border-radius: 0; /* Squared off for minimal? Or keeping slight radius. Let's keep slight radius but smaller */
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05); /* Very subtle hover shadow */
+}
+
+/* Project card with gradient background */
+.project-card {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #f5f5f5; /* Fallback */
+  aspect-ratio: 4/3;
+}
+
+.project-card-inner {
+  position: absolute;
+  inset: 0;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.project-image {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.05) rotate(1deg);
+}
+
+/* Navigation styles */
+.nav-pill {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* Tighter gap */
+  padding: 0.375rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  /* box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.1); Removed shadow */
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem; /* Smaller buttons */
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: transparent;
+  color: #666; /* Muted text */
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-btn:hover {
+  background: #f5f5f5;
+  color: #000;
+}
+
+.nav-btn.active {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Voice assistant button */
+.voice-btn {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: #000; /* Pure black */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  overflow: hidden;
+}
+
+.voice-btn:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+.voice-btn.listening {
+  animation: pulse-ring 1.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+/* Voice waves animation */
+.voice-waves {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.voice-waves span {
+  width: 2px; /* Thinner */
+  height: 10px;
+  background: white;
+  border-radius: 1px;
+  animation: wave 1s ease-in-out infinite;
+}
+
+.voice-waves span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.voice-waves span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.voice-waves span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes wave {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 16px;
+  }
+}
+
+/* Voice overlay */
+.voice-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.voice-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.voice-modal {
+  background: var(--card);
+  border-radius: 2rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  transform: scale(0.9);
+  transition: transform var(--transition-base);
+}
+
+.voice-overlay.active .voice-modal {
+  transform: scale(1);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Voice Orb Animations */
+@keyframes morph {
+  0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+  50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(0,0,0,0.4); }
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.voice-orb {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* Glossy Black & White Gradient */
+  background: radial-gradient(circle at 30% 30%, #e0e0e0, #1a1a1a); 
+  background: linear-gradient(135deg, #ffffff 0%, #000000 100%);
+  position: relative;
+  transition: all 0.5s ease;
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.1), 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark .voice-orb {
+  background: linear-gradient(135deg, #ffffff 0%, #e4e4e7 100%);
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.1), 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.voice-orb.listening {
+  /* Animated fluid grayscale gradient */
+  background: linear-gradient(-45deg, #000000, #434343, #000000, #2c3e50);
+  background-size: 400% 400%;
+  animation: morph 4s ease-in-out infinite, breathe 3s ease-in-out infinite, gradient-move 5s ease infinite;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255,255,255,0.1);
+}
+
+.dark .voice-orb.listening {
+  background: linear-gradient(-45deg, #ffffff, #d4d4d8, #ffffff, #a1a1aa);
+  background-size: 400% 400%;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Inner highlight for gloss effect */
+.voice-orb::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0));
+  filter: blur(1px);
+}
+
+/* Outer ripple/glow */
+.voice-orb::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: -1;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.voice-orb.listening::after {
+  opacity: 1;
+  transform: scale(1.2);
+  border-color: rgba(0, 0, 0, 0.1);
+  animation: breathe 3s ease-in-out infinite reverse;
+}
+
+/* Stagger animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* ============================================
+   Section Layouts
+   ============================================ */
+
+.section {
+  padding: var(--section-padding) 1.5rem;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.section-label {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--foreground);
+  color: var(--background);
+  border-radius: 9999px;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   Responsive adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 4rem;
+  }
+  
+  .nav-pill {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.375rem;
+  }
+  
+  .nav-btn, .voice-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* Minimal Section Utilities */
+.section-minimal-header {
+  font-size: 0.875rem; /* Text-sm */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
